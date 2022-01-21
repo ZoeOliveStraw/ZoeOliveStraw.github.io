@@ -23,7 +23,7 @@
         //Step 3 - Configure new element
         MainParagraph.setAttribute("id","MainParagraph");
         MainParagraph.setAttribute("class","mt-3");
-        let FirstString = "Adding some sickass shit ";
+        let FirstString = "Adding some awesome stuff ";
         let SecondString = `${FirstString} to the main paragraph.`;
         MainParagraph.textContent = SecondString;
         Article.setAttribute("class","container");
