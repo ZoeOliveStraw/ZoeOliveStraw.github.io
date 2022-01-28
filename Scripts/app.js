@@ -1,9 +1,11 @@
 //IIFE -- Immediately invoked function express
 //AKA anonymous self-executing function
+"use strict";
 (function()
 {
     function DisplayHome()
     {
+        console.log("Home Page");
         let AboutUsButton = document.getElementById("AboutUsButton");
         AboutUsButton.addEventListener("click", function()
         {
@@ -23,7 +25,7 @@
         //Step 3 - Configure new element
         MainParagraph.setAttribute("id","MainParagraph");
         MainParagraph.setAttribute("class","mt-3");
-        let FirstString = "Adding some awesome stuff ";
+        let FirstString = "Adding some sickass shit ";
         let SecondString = `${FirstString} to the main paragraph.`;
         MainParagraph.textContent = SecondString;
         Article.setAttribute("class","container");
@@ -36,17 +38,86 @@
         MainContent.appendChild(MainParagraph);
         Article.innerHTML = ArticleParagraph;
         DocumentBody.appendChild(Article);
-
-        //Example of Insert Before
-        //MainContent.before(MainParagraph);
-
-        //Example of deletion
-
-        //AboutUsButton.remove();
-
-        //ES6 HTML5 => Template Strings => "Super Strings"
         
+        let zoe = new Contact("Zoe Straw","5555555555", "Zoe@zoemail.net");
+        console.log(zoe.toString());
     }
+
+    function DisplayAboutPage()
+    {
+        console.log("About Us")
+    }
+
+    function DisplayProjectsPage()
+    {
+        console.log("Projects page")
+    }
+
+    function DisplayServicesPage()
+    {
+        console.log("Services")
+    }
+
+    function DisplayContactPage()
+    {
+        console.log("Contact Us Page")
+
+        let sendButton = document.getElementById("sendButton");
+        let subscribeCheckBox = document.getElementById("subscribeCheckBox");
+
+        sendButton.addEventListener("click",function()
+        {
+            if(subscribeCheckBox.checked)
+            {
+                let contact = new Contact(fullName.value, contactNumber.value, emailAddress.value);
+                if(contact.serialize())
+                {
+                    let key = contact.FullName.substring(0,1) + Date.now();
+
+                    localStorage.setItem(key, contact.serialize());
+                }
+            }
+        })
+    }
+
+    function DisplayContactListPage()
+    {
+        console.log("Contact List Page")
+        if(localStorage.length > 0)
+        {
+            let contactList = document.getElementById("contactList");
+
+            let data = ""; // data container -> deserailized data from localStorage
+
+            let keys = Object.keys(localStorage); // Returns a string array of of keys
+
+            let index = 1; // Counts how many keys
+
+            //For every key in the keys array (collection) loop
+            for (const key of keys) 
+            {
+                let contactData = localStorage.getItem(key); // Get localStorage data value related to the key
+
+                let contact = new Contact(); // Create new empty contact object
+                contact.deserialize(contactData);
+                console.log(contact.toString());
+
+                data += `<tr>
+                <th scope="row" class="text-center">${index}</th>
+                <td>${contact.FullName}</td>
+                <td>${contact.ContactNumber}</td>
+                <td>${contact.EmailAddress}</td>
+                <td></td>
+                <td></td>
+                </tr>`;
+
+                index++;
+            }
+
+            contactList.innerHTML = data;
+        }
+    }
+
     //named function
     function Start()
     {
@@ -56,6 +127,21 @@
         {
             case "Home Page":
                 DisplayHome();
+                break;
+            case "About Us":
+                DisplayAboutPage();
+                break;
+            case "Our Projects":
+                DisplayProjectsPage();
+                break;
+            case "Our Services":
+                DisplayServicesPage();
+                break;
+            case "Contact-List":
+                DisplayContactListPage();
+                break;
+            case "Contact Us":
+                DisplayContactPage();
                 break;
         }
     }
